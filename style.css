@@ -1,1 +1,6 @@
-body { font-family: sans-serif; text-align: center; padding: 2rem; }
+body {
+  text-align: center;
+  padding: 3rem;
+  background: #f9f9f9;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
