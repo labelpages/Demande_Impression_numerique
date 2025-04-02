@@ -1,35 +1,129 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Test Formulaire – Debug</title>
+  <meta charset="UTF-8">
+  <title>Demande d'impression numérique – Labelpages</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f4f4f4;
+      color: #333;
       padding: 2rem;
-      background: #f5f5f5;
+      max-width: 700px;
+      margin: auto;
     }
-    #log {
-      margin-top: 2rem;
-      padding: 1rem;
+    section {
       background: white;
-      border: 1px solid #ccc;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
       border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    nav {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    h2 {
+      margin-top: 0;
     }
   </style>
 </head>
 <body>
-  <h1>Formulaire Labelpages – Test JS</h1>
-  <div id="log">Chargement...</div>
-
+  <div id="app">Chargement du formulaire…</div>
   <script>
-    const log = document.getElementById('log');
-    try {
-      log.innerText = "✅ JavaScript fonctionne correctement.";
-    } catch (e) {
-      log.innerText = "❌ Une erreur est survenue dans le script : " + e.message;
+    const app = document.getElementById('app');
+    let step = 1;
+    const data = JSON.parse(localStorage.getItem('formData')) || {};
+
+    function saveAndNext(e) {
+      e.preventDefault();
+      const inputs = e.target.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        data[input.id] = input.value;
+      });
+      localStorage.setItem('formData', JSON.stringify(data));
+      step++;
+      renderStep();
     }
+
+    function renderStep() {
+      let html = '<section><form id="form">';
+      let title = '';
+
+      if (step === 1) {
+        title = 'Coordonnées';
+        html += `
+          <label>Prénom</label><input type="text" id="prenom" value="${data.prenom || ''}" required />
+          <label>Nom</label><input type="text" id="nom" value="${data.nom || ''}" required />
+          <label>Email</label><input type="email" id="email" value="${data.email || ''}" required />
+          <label>École et section</label><input type="text" id="ecole" value="${data.ecole || ''}" />
+          <label>Délai souhaité</label><input type="date" id="delai" value="${data.delai || ''}" />
+        `;
+      } else if (step === 2) {
+        title = 'Détails de l'impression';
+        html += `
+          <label>Quantité</label><input type="number" id="quantite" value="${data.quantite || ''}" />
+          <label>Format fini</label><input type="text" id="format" value="${data.format || ''}" />
+          <label>Orientation</label>
+          <select id="orientation">
+            <option ${data.orientation === "Portrait" ? "selected" : ""}>Portrait</option>
+            <option ${data.orientation === "Paysage" ? "selected" : ""}>Paysage</option>
+          </select>
+        `;
+      } else if (step === 3) {
+        title = 'Finition';
+        html += `
+          <label>Finition</label>
+          <select id="finition">
+            <option ${data.finition === "Piqûre à cheval" ? "selected" : ""}>Piqûre à cheval</option>
+            <option ${data.finition === "Spirale métal" ? "selected" : ""}>Spirale métal</option>
+            <option ${data.finition === "Dos carré-collé couverture souple" ? "selected" : ""}>Dos carré-collé couverture souple</option>
+            <option ${data.finition === "Reliure cartonné type BD" ? "selected" : ""}>Reliure cartonné type BD</option>
+          </select>
+          <label>Remarques</label>
+          <textarea id="remarques">${data.remarques || ''}</textarea>
+        `;
+      } else {
+        title = 'Récapitulatif';
+        html = '<section><h2>Récapitulatif</h2><ul>';
+        for (const [key, value] of Object.entries(data)) {
+          html += `<li><strong>${key}</strong> : ${value}</li>`;
+        }
+        html += '</ul>';
+        const corps = encodeURIComponent(`Bonjour,%0D%0A%0D%0AVoici ma demande d'impression numérique :%0D%0A%0D%0A` + 
+          Object.entries(data).map(([k,v]) => `${k} : ${v}`).join('%0D%0A') + '%0D%0A%0D%0AMerci !');
+        html += `<a href="mailto:info@labelpages.com?subject=Demande d'impression TFE&body=${corps}">
+          <button type="button">Envoyer la demande</button>
+        </a>`;
+        html += '</section>';
+        app.innerHTML = html;
+        return;
+      }
+
+      html += `<button type="submit">Continuer</button></form></section>`;
+      app.innerHTML = `<nav><h2>${title}</h2></nav>` + html;
+      document.getElementById("form").addEventListener("submit", saveAndNext);
+    }
+
+    renderStep();
   </script>
 </body>
 </html>
