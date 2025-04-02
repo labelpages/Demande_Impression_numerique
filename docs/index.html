@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Demande d'impression numérique – Labelpages</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -110,7 +110,7 @@
         html += '</ul>';
         const corps = encodeURIComponent(`Bonjour,%0D%0A%0D%0AVoici ma demande d'impression numérique :%0D%0A%0D%0A` + 
           Object.entries(data).map(([k,v]) => `${k} : ${v}`).join('%0D%0A') + '%0D%0A%0D%0AMerci !');
-        html += `<a href="mailto:info@labelpages.com?subject=Demande d'impression TFE&body=${corps}">
+        html += `<a href="mailto:info@labelpages.com?subject=Demande%20d%27impression%20TFE&body=${corps}">
           <button type="button">Envoyer la demande</button>
         </a>`;
         html += '</section>';
