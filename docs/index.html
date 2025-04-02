@@ -56,6 +56,9 @@ h2 {
             resize: vertical;
         }
         button {
+    background-color: #E87722;
+    font-weight: bold;
+    margin-top: 2rem;
             background-color: #007aff;
             color: white;
             padding: 0.8rem 2rem;
@@ -156,6 +159,7 @@ h2 {
 </section>
 
 <button type="submit">Envoyer ma demande</button>
+<div id="confirmationMessage" style="text-align:center; margin-top:1rem; color:green; font-weight:500;"></div>
 </form>
 
 <footer>
@@ -202,7 +206,34 @@ function updateNoteFinition(val) {
     };
     note.innerHTML = content[val] || '';
 }
+
+function updateNoteFinition(val) {
+    const note = document.getElementById('noteFinition');
+    let content = '';
+    if (val === 'agrafage') {
+        content = `<strong>Délai :</strong> 4 jours ouvrables après validation du fichier<br>
+        <strong>Fichier à transmettre :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+        <em>Ce type de reliure nécessite impérativement un multiple de 4 pages.</em>`;
+    } else if (val === 'spirale') {
+        content = `<strong>Délai :</strong> 4 jours ouvrables après validation du fichier<br>
+        <strong>Fichier à transmettre :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+        <em>Ce type de reliure nécessite impérativement un multiple de 2 pages.</em>`;
+    } else if (val === 'doscarre') {
+        content = `<strong>Délai :</strong> 6 jours ouvrables après validation du fichier<br>
+        <strong>Fichiers à transmettre :</strong><br>
+        – 1 fichier pour les pages intérieures au format PDF haute définition avec traits de coupe et fonds perdus en pages simples (pas de planche) - marges intérieures de 15mm<br>
+        – 1 fichier pour les pages de couverture au format PDF haute définition avec traits de coupe et fonds perdus en 1 partie avec un dos tenant compte du nombre de pages intérieur<br><br>
+        <a href='https://labelpages.github.io/LOCI/' target='_blank' style='display:inline-block; margin-top:0.5rem; padding:0.4rem 1rem; background:{blue_logo}; color:white; border-radius:5px; text-decoration:none;'>Calcul avec ce programme</a>`;
+    } else if (val === 'bd') {
+        content = `<strong>Délai :</strong> 10 jours ouvrables après validation du fichier<br>
+        <strong>Fichiers à transmettre :</strong><br>
+        – 1 fichier pour les pages intérieures au format PDF haute définition avec traits de coupe et fonds perdus en pages simples (pas de planche) - marges intérieures de 15mm<br>
+        – 1 fichier pour les pages de couverture au format PDF haute définition avec traits de coupe et fonds perdus en 1 partie avec un dos tenant compte du nombre de pages intérieur d'après un gabarit fourni par Labelpages sur demande.`;
+    }
+    note.innerHTML = content;
+}
 updateNoteFinition(document.getElementById('finition').value);
+
 
 form.addEventListener('submit', function(e){
     e.preventDefault();
@@ -218,7 +249,34 @@ form.addEventListener('submit', function(e){
         `Remarques : ${d.remarques}\n\nFichiers transmis via WeTransfer à info@labelpages.com`
     );
     const subject = encodeURIComponent("Demande d'impression TFE");
-    window.location.href = `mailto:info@labelpages.com,${d.email}?subject=${subject}&body=${body}`;
+    document.getElementById('confirmationMessage').innerText = "Votre demande a été générée. Un email s’ouvre automatiquement. Merci !";
+    
+    const emailHtml = `
+        <html><body>
+        <h2>Demande d'impression numérique</h2>
+        <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: sans-serif;">
+        <tr><td><strong>Prénom</strong></td><td>${d.prenom}</td></tr>
+        <tr><td><strong>Nom</strong></td><td>${d.nom}</td></tr>
+        <tr><td><strong>Téléphone</strong></td><td>${d.tel}</td></tr>
+        <tr><td><strong>Email</strong></td><td>${d.email}</td></tr>
+        <tr><td><strong>École / Section</strong></td><td>${d.ecole}</td></tr>
+        <tr><td><strong>Délai souhaité</strong></td><td>${d.delai}</td></tr>
+        <tr><td><strong>Quantité</strong></td><td>${d.quantite}</td></tr>
+        <tr><td><strong>Format</strong></td><td>${d.format}</td></tr>
+        <tr><td><strong>Orientation</strong></td><td>${d.orientation}</td></tr>
+        <tr><td><strong>Pages intérieures</strong></td><td>${d.pagesInterieures}</td></tr>
+        <tr><td><strong>Papier intérieur</strong></td><td>${d.papierInterieur}</td></tr>
+        <tr><td><strong>Pages couverture</strong></td><td>${d.pagesCouverture}</td></tr>
+        <tr><td><strong>Papier couverture</strong></td><td>${d.papierCouverture}</td></tr>
+        <tr><td><strong>Finition</strong></td><td>${d.finition}</td></tr>
+        <tr><td><strong>Remarques</strong></td><td>${d.remarques}</td></tr>
+        <tr><td><strong>Fichiers transmis via</strong></td><td>https://wetransfer.com à info@labelpages.com</td></tr>
+        </table>
+        </body></html>
+    `;
+    const mailBody = encodeURIComponent(emailHtml.replace(/<br>/g, '\n').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+    window.location.href = `mailto:info@labelpages.com,${d.email}?subject=${subject}&body=${mailBody}`;
+
 });
 </script>
 </body>
