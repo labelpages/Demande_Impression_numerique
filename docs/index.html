@@ -150,6 +150,120 @@
 
 <script>
 
+const form = document.getElementById('printForm');
+const fields = [
+    'prenom', 'nom', 'tel', 'email', 'ecole', 'delai',
+    'quantite', 'format', 'orientation', 'pagesInterieures',
+    'papierInterieur', 'pagesCouverture', 'papierCouverture',
+    'finition', 'remarques'
+];
+
+// Charger depuis localStorage
+fields.forEach(id => {
+    const el = document.getElementById(id);
+    const saved = localStorage.getItem(id);
+    if (saved !== null && el) el.value = saved;
+});
+
+// Sauvegarde à chaque saisie
+fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('input', () => {
+            localStorage.setItem(id, el.value);
+            if (id === 'papierInterieur') updatePapierCouverture(el.value);
+            if (id === 'finition') updateNoteFinition(el.value);
+        });
+    }
+});
+
+function updatePapierCouverture(val) {
+    const couverture = document.getElementById('papierCouverture');
+    couverture.innerHTML = '';
+    const mappings = {
+        'Satiné blanc - ColorCopy 160g': ['Carton silk 350g'],
+        'Recyclé super blanc - Circle 140g': ['Recyclé super blanc 350g'],
+        'Blanc naturel - Biotop 120g': ['Blanc naturel - Biotop 300g'],
+        'Couché silk blanc - Magno satin 150g': ['Carton silk 350g']
+    };
+    if (mappings[val]) {
+        mappings[val].forEach(papier => {
+            const opt = document.createElement('option');
+            opt.value = papier;
+            opt.textContent = papier;
+            couverture.appendChild(opt);
+        });
+    }
+}
+
+function updateNoteFinition(val) {
+    const note = document.getElementById('noteFinition');
+    let content = '';
+    switch(val) {
+        case 'agrafage':
+            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
+            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+            <em>Ce type de reliure nécessite impérativement un multiple de 4 pages.</em>`;
+            break;
+        case 'spirale':
+            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
+            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+            <em>Ce type de reliure nécessite impérativement un multiple de 2 pages.</em>`;
+            break;
+        case 'doscarre':
+            content = `<strong>Délai :</strong> 6 jours ouvrables après validation<br>
+            <strong>Fichiers :</strong><br>
+            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
+            - Couverture : PDF HD, 1 fichier avec dos calculé via <a href="https://labelpages.github.io/LOCI/" target="_blank">ce programme</a>`;
+            break;
+        case 'bd':
+            content = `<strong>Délai :</strong> 10 jours ouvrables après validation<br>
+            <strong>Fichiers :</strong><br>
+            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
+            - Couverture : PDF HD, 1 fichier avec dos basé sur un gabarit fourni sur demande`;
+            break;
+    }
+    note.innerHTML = content;
+}
+
+// Email structuré
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const data = {};
+    fields.forEach(id => data[id] = document.getElementById(id).value);
+
+    const lignes = [
+        'Demande d'impression numérique',
+        '',
+        `Prénom : ${data.prenom}`,
+        `Nom : ${data.nom}`,
+        `Téléphone : ${data.tel}`,
+        `Email : ${data.email}`,
+        `École / Section : ${data.ecole}`,
+        `Délai souhaité : ${data.delai}`,
+        '',
+        `Quantité : ${data.quantite}`,
+        `Format fini : ${data.format}`,
+        `Orientation : ${data.orientation}`,
+        `Pages intérieures : ${data.pagesInterieures}`,
+        `Papier intérieur : ${data.papierInterieur}`,
+        `Pages couverture : ${data.pagesCouverture}`,
+        `Papier couverture : ${data.papierCouverture}`,
+        `Finition : ${data.finition}`,
+        '',
+        `Remarques : ${data.remarques}`,
+        '',
+        `Fichiers transmis via : https://wetransfer.com à info@labelpages.com`
+    ];
+
+    const body = encodeURIComponent(lignes.join('\n'));
+    const subject = encodeURIComponent("Demande d'impression TFE");
+    const mailto = `mailto:info@labelpages.com,${data.email}?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
+});
+
+
 // Sauvegarde dans localStorage
 const form = document.getElementById('printForm');
 const fields = [
@@ -271,5 +385,11 @@ form.addEventListener('submit', function(e) {
 // JS à venir : stockage local, logique papier + note finition, mailto etc.
 </script>
 
+
+<footer style="text-align:center; font-size: 0.9rem; margin-top: 4rem; color: #888;">
+    <p>Contact : Rue Michel Holyman, 12 | 7536 Vaulx (Tournai – Belgique) | <a href="mailto:info@labelpages.com">info@labelpages.com</a> | +32 69 228 339</p>
+    <img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages logo" style="height:40px; margin-top: 0.5rem;">
+</footer>
 </body>
 </html>
+
