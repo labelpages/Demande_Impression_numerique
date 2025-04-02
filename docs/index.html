@@ -33,7 +33,7 @@
             background: white;
             border-radius: 1rem;
             padding: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         label {
@@ -191,7 +191,7 @@ h2 {
 <img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages Logo" class="logo">
 <h1>Demande d'impression numérique</h1>
 
-<form id="printForm" style="margin-bottom: 2rem;">
+<form id="printForm" style="margin-bottom: 1rem;">
 
 <section>
     <h2>Mes coordonnées</h2>
@@ -353,7 +353,15 @@ form.addEventListener('submit', function(e) {
     const body = encodeURIComponent(lignes.join('\n'));
     window.location.href = 'mailto:info@labelpages.com,' + d.email + '?subject=' + subject + '&body=' + body;
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const papier = document.getElementById('papierInterieur').value;
+    const finition = document.getElementById('finition').value;
+    updatePapierCouverture(papier);
+    updateNoteFinition(finition);
+});
 </script>
+
 
 </body>
 </html>
