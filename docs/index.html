@@ -16,89 +16,6 @@
             margin: auto;
         }
         h1 {
-            text-align: center;
-            color: #007aff;
-        }
-        h2 {
-            text-align: left;
-            color: #E87722;
-            margin-bottom: 1rem;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-        section {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        label {
-            display: block;
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.6rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 0.6rem;
-            font-size: 1rem;
-        }
-        textarea {
-            resize: vertical;
-        }
-        button {
-            background-color: #E87722;
-            color: white;
-            padding: 0.8rem 2rem;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 0.6rem;
-            cursor: pointer;
-            display: block;
-            margin: 2rem auto;
-            font-weight: bold;
-        }
-        .note {
-            font-size: 0.95rem;
-            background: #f0f0f0;
-            padding: 1rem;
-            border-left: 4px solid #007aff;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-            font-weight: 500;
-        }
-        .logo {
-            display: block;
-            margin: auto;
-            width: 200px;
-        }
-        footer {
-            text-align: center;
-            font-size: 0.9rem;
-            margin-top: 4rem;
-            color: #888;
-        }
-        footer img {
-            height: 40px;
-            margin-top: 0.5rem;
-        }
-    </style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-                         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            background-color: #f5f5f7;
-            color: #1c1c1e;
-            padding: 2rem;
-            max-width: 900px;
-            margin: auto;
-        }
-        h1 {
   text-align: center;
   color: #007aff;
 }
@@ -141,16 +58,6 @@ h2 {
         button {
     background-color: #E87722;
     font-weight: bold;
-    color: white;
-    padding: 0.8rem 2rem;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    display: block;
-    margin: 2rem auto 1rem auto;
-    background-color: #E87722;
-    font-weight: bold;
     margin-top: 2rem;
             background-color: #007aff;
             color: white;
@@ -191,7 +98,7 @@ h2 {
 <img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages Logo" class="logo">
 <h1>Demande d'impression numérique</h1>
 
-<form id="printForm" style="margin-bottom: 1rem;">
+<form id="printForm">
 
 <section>
     <h2>Mes coordonnées</h2>
@@ -260,12 +167,9 @@ h2 {
     <img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages logo">
 </footer>
 
-
-
 <script>
 const form = document.getElementById('printForm');
 const fields = ['prenom','nom','tel','email','ecole','delai','quantite','format','orientation','pagesInterieures','papierInterieur','pagesCouverture','papierCouverture','finition','remarques'];
-
 fields.forEach(id => {
     const el = document.getElementById(id);
     if (localStorage.getItem(id)) el.value = localStorage.getItem(id);
@@ -290,78 +194,90 @@ function updatePapierCouverture(val) {
     opt.textContent = map[val];
     c.appendChild(opt);
 }
+updatePapierCouverture(document.getElementById('papierInterieur').value);
+
+function updateNoteFinition(val) {
+    const note = document.getElementById('noteFinition');
+    const content = {
+        'agrafage': `<strong>Délai :</strong> 4 jours ouvrables<br><strong>Fichier :</strong> PDF HD avec bords perdus et traits de coupe<br><em>Multiples de 4 pages requis.</em>`,
+        'spirale': `<strong>Délai :</strong> 4 jours ouvrables<br><strong>Fichier :</strong> PDF HD avec bords perdus et traits de coupe<br><em>Multiples de 2 pages requis.</em>`,
+        'doscarre': `<strong>Délai :</strong> 6 jours ouvrables<br><strong>Fichiers :</strong> Intérieur en PDF HD pages simples + Couverture avec dos via <a href='https://labelpages.github.io/LOCI/' target='_blank'>ce calculateur</a>`,
+        'bd': `<strong>Délai :</strong> 10 jours ouvrables<br><strong>Fichiers :</strong> Intérieur en PDF HD pages simples + Couverture avec gabarit fourni sur demande`
+    };
+    note.innerHTML = content[val] || '';
+}
 
 function updateNoteFinition(val) {
     const note = document.getElementById('noteFinition');
     let content = '';
     if (val === 'agrafage') {
         content = `<strong>Délai :</strong> 4 jours ouvrables après validation du fichier<br>
-        <strong>Fichier à transmettre :</strong> PDF HD avec bords perdus et traits de coupe<br>
-        <em>Multiples de 4 pages requis.</em>`;
+        <strong>Fichier à transmettre :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+        <em>Ce type de reliure nécessite impérativement un multiple de 4 pages.</em>`;
     } else if (val === 'spirale') {
         content = `<strong>Délai :</strong> 4 jours ouvrables après validation du fichier<br>
-        <strong>Fichier à transmettre :</strong> PDF HD avec bords perdus et traits de coupe<br>
-        <em>Multiples de 2 pages requis.</em>`;
+        <strong>Fichier à transmettre :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+        <em>Ce type de reliure nécessite impérativement un multiple de 2 pages.</em>`;
     } else if (val === 'doscarre') {
         content = `<strong>Délai :</strong> 6 jours ouvrables après validation du fichier<br>
         <strong>Fichiers à transmettre :</strong><br>
-        – 1 fichier pour les pages intérieures au format PDF HD avec traits de coupe et fonds perdus en pages simples (pas de planche) - marges intérieures de 15mm<br>
-        – 1 fichier pour la couverture au format PDF HD avec traits de coupe et fonds perdus en une seule partie, dos inclus.<br><br>
-        <a href='https://labelpages.github.io/LOCI/' target='_blank' style='display:inline-block; margin-top:0.5rem; padding:0.4rem 1rem; background:#007aff; color:white; border-radius:5px; text-decoration:none;'>📐 Calcul avec ce programme</a>`;
+        – 1 fichier pour les pages intérieures au format PDF haute définition avec traits de coupe et fonds perdus en pages simples (pas de planche) - marges intérieures de 15mm<br>
+        – 1 fichier pour les pages de couverture au format PDF haute définition avec traits de coupe et fonds perdus en 1 partie avec un dos tenant compte du nombre de pages intérieur<br><br>
+        <a href='https://labelpages.github.io/LOCI/' target='_blank' style='display:inline-block; margin-top:0.5rem; padding:0.4rem 1rem; background:{blue_logo}; color:white; border-radius:5px; text-decoration:none;'>Calcul avec ce programme</a>`;
     } else if (val === 'bd') {
         content = `<strong>Délai :</strong> 10 jours ouvrables après validation du fichier<br>
         <strong>Fichiers à transmettre :</strong><br>
-        – 1 fichier pour les pages intérieures au format PDF HD avec traits de coupe et fonds perdus en pages simples (pas de planche) - marges intérieures de 15mm<br>
-        – 1 fichier pour la couverture au format PDF HD avec dos intégré, basé sur un gabarit fourni sur demande.`;
+        – 1 fichier pour les pages intérieures au format PDF haute définition avec traits de coupe et fonds perdus en pages simples (pas de planche) - marges intérieures de 15mm<br>
+        – 1 fichier pour les pages de couverture au format PDF haute définition avec traits de coupe et fonds perdus en 1 partie avec un dos tenant compte du nombre de pages intérieur d'après un gabarit fourni par Labelpages sur demande.`;
     }
     note.innerHTML = content;
 }
-
-updatePapierCouverture(document.getElementById('papierInterieur').value);
 updateNoteFinition(document.getElementById('finition').value);
 
-form.addEventListener('submit', function(e) {
+
+form.addEventListener('submit', function(e){
     e.preventDefault();
     const d = {};
     fields.forEach(id => d[id] = document.getElementById(id).value);
-
-    const lignes = [
-        'Demande d'impression numérique',
-        '',
-        'Prénom : ' + d.prenom,
-        'Nom : ' + d.nom,
-        'Téléphone : ' + d.tel,
-        'Email : ' + d.email,
-        'École / Section : ' + d.ecole,
-        'Délai souhaité : ' + d.delai,
-        '',
-        'Quantité : ' + d.quantite,
-        'Format : ' + d.format,
-        'Orientation : ' + d.orientation,
-        'Pages intérieures : ' + d.pagesInterieures,
-        'Papier intérieur : ' + d.papierInterieur,
-        'Pages couverture : ' + d.pagesCouverture,
-        'Papier couverture : ' + d.papierCouverture,
-        'Finition : ' + d.finition,
-        '',
-        'Remarques : ' + d.remarques,
-        '',
-        'Fichiers transmis via WeTransfer à info@labelpages.com'
-    ];
-
+    const body = encodeURIComponent(
+        `Demande d'impression numérique\n\n` +
+        `Prénom : ${d.prenom}\nNom : ${d.nom}\nTéléphone : ${d.tel}\nEmail : ${d.email}\n` +
+        `École / Section : ${d.ecole}\nDélai souhaité : ${d.delai}\n\n` +
+        `Quantité : ${d.quantite}\nFormat : ${d.format}\nOrientation : ${d.orientation}\n` +
+        `Pages intérieures : ${d.pagesInterieures}\nPapier intérieur : ${d.papierInterieur}\n` +
+        `Pages couverture : ${d.pagesCouverture}\nPapier couverture : ${d.papierCouverture}\nFinition : ${d.finition}\n\n` +
+        `Remarques : ${d.remarques}\n\nFichiers transmis via WeTransfer à info@labelpages.com`
+    );
     const subject = encodeURIComponent("Demande d'impression TFE");
-    const body = encodeURIComponent(lignes.join('\n'));
-    window.location.href = 'mailto:info@labelpages.com,' + d.email + '?subject=' + subject + '&body=' + body;
-});
+    document.getElementById('confirmationMessage').innerText = "Votre demande a été générée. Un email s’ouvre automatiquement. Merci !";
+    
+    const emailHtml = `
+        <html><body>
+        <h2>Demande d'impression numérique</h2>
+        <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: sans-serif;">
+        <tr><td><strong>Prénom</strong></td><td>${d.prenom}</td></tr>
+        <tr><td><strong>Nom</strong></td><td>${d.nom}</td></tr>
+        <tr><td><strong>Téléphone</strong></td><td>${d.tel}</td></tr>
+        <tr><td><strong>Email</strong></td><td>${d.email}</td></tr>
+        <tr><td><strong>École / Section</strong></td><td>${d.ecole}</td></tr>
+        <tr><td><strong>Délai souhaité</strong></td><td>${d.delai}</td></tr>
+        <tr><td><strong>Quantité</strong></td><td>${d.quantite}</td></tr>
+        <tr><td><strong>Format</strong></td><td>${d.format}</td></tr>
+        <tr><td><strong>Orientation</strong></td><td>${d.orientation}</td></tr>
+        <tr><td><strong>Pages intérieures</strong></td><td>${d.pagesInterieures}</td></tr>
+        <tr><td><strong>Papier intérieur</strong></td><td>${d.papierInterieur}</td></tr>
+        <tr><td><strong>Pages couverture</strong></td><td>${d.pagesCouverture}</td></tr>
+        <tr><td><strong>Papier couverture</strong></td><td>${d.papierCouverture}</td></tr>
+        <tr><td><strong>Finition</strong></td><td>${d.finition}</td></tr>
+        <tr><td><strong>Remarques</strong></td><td>${d.remarques}</td></tr>
+        <tr><td><strong>Fichiers transmis via</strong></td><td>https://wetransfer.com à info@labelpages.com</td></tr>
+        </table>
+        </body></html>
+    `;
+    const mailBody = encodeURIComponent(emailHtml.replace(/<br>/g, '\n').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+    window.location.href = `mailto:info@labelpages.com,${d.email}?subject=${subject}&body=${mailBody}`;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const papier = document.getElementById('papierInterieur').value;
-    const finition = document.getElementById('finition').value;
-    updatePapierCouverture(papier);
-    updateNoteFinition(finition);
 });
 </script>
-
-
 </body>
 </html>
