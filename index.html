@@ -44,6 +44,14 @@
     h2 {
       margin-top: 0;
     }
+    .note {
+      font-size: 0.9rem;
+      background: #eef5ff;
+      border-left: 4px solid #007aff;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
@@ -100,6 +108,8 @@
           </select>
           <label>Remarques</label>
           <textarea id="remarques">${data.remarques || ''}</textarea>
+
+          <div class="note" id="noteFinition"></div>
         `;
       } else {
         title = 'Récapitulatif';
@@ -108,9 +118,9 @@
           html += `<li><strong>${key}</strong> : ${value}</li>`;
         }
         html += '</ul>';
-        const corps = encodeURIComponent(`Bonjour,%0D%0A%0D%0AVoici ma demande d'impression numérique :%0D%0A%0D%0A` +
-          Object.entries(data).map(([k,v]) => `${k} : ${v}`).join('%0D%0A') + '%0D%0A%0D%0AMerci !');
-        html += `<a href="mailto:info@labelpages.com?subject=Demande%20d%27impression%20TFE&body=${corps}">
+        const lignes = Object.entries(data).map(([k,v]) => `${k} : ${v}`).join('\n');
+        const corps = encodeURIComponent("Bonjour,\n\nVoici ma demande d'impression numérique :\n\n" + lignes + "\n\nMerci !");
+        html += `<a href="mailto:info@labelpages.com?subject=Demande d'impression TFE&body=${corps}">
           <button type="button">Envoyer la demande</button>
         </a>`;
         html += '</section>';
@@ -121,6 +131,17 @@
       html += `<button type="submit">Continuer</button></form></section>`;
       app.innerHTML = `<nav><h2>${title}</h2></nav>` + html;
       document.getElementById("form").addEventListener("submit", saveAndNext);
+
+      const note = document.getElementById("noteFinition");
+      if (note && data.finition) {
+        const infos = {
+          "Piqûre à cheval": "📎 Délai : 4 jours ouvrables après validation du fichier.\nFichier à transmettre : PDF HD avec bords perdus et traits de coupe. Multiples de 4 pages.",
+          "Spirale métal": "🔗 Délai : 4 jours ouvrables après validation du fichier.\nFichier à transmettre : PDF HD avec bords perdus et traits de coupe. Multiples de 2 pages.",
+          "Dos carré-collé couverture souple": "📘 Délai : 6 jours ouvrables après validation.\nFichiers : 1 PDF HD intérieur (pages simples, 15mm de marge), 1 PDF HD couverture avec dos (calculé via le programme).",
+          "Reliure cartonné type BD": "📚 Délai : 10 jours ouvrables après validation.\nFichiers : 1 PDF HD intérieur (pages simples, 15mm de marge), 1 PDF HD couverture selon gabarit fourni."
+        };
+        note.innerText = infos[data.finition] || "";
+      }
     }
 
     renderStep();
