@@ -1,1 +1,156 @@
-Dossier temporaire
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demande d'impression numérique</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+                         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f5f5f7;
+            color: #1c1c1e;
+            padding: 2rem;
+            max-width: 900px;
+            margin: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #007aff;
+        }
+        section {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        label {
+            display: block;
+            margin: 0.8rem 0 0.3rem;
+            font-weight: 500;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.6rem;
+            font-size: 1rem;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #007aff;
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 0.6rem;
+            cursor: pointer;
+            display: block;
+            margin: 2rem auto 0;
+        }
+        .note {
+            font-size: 0.95rem;
+            background: #f0f0f0;
+            padding: 1rem;
+            border-left: 4px solid #007aff;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+        }
+        .logo {
+            display: block;
+            margin: auto;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages Logo" class="logo">
+
+<h1>Demande d'impression numérique</h1>
+
+<form id="printForm">
+
+<section>
+    <h2>Mes coordonnées</h2>
+    <label for="prenom">Prénom</label>
+    <input type="text" id="prenom" required>
+    <label for="nom">Nom</label>
+    <input type="text" id="nom" required>
+    <label for="tel">Numéro de téléphone</label>
+    <input type="tel" id="tel" required>
+    <label for="email">Adresse email</label>
+    <input type="email" id="email" required>
+    <label for="ecole">École et section</label>
+    <input type="text" id="ecole" required>
+    <label for="delai">Délai souhaité</label>
+    <input type="text" id="delai" required>
+</section>
+
+<section>
+    <h2>Ma demande d’impression</h2>
+    <label for="quantite">Quantité</label>
+    <input type="number" id="quantite" min="1" required>
+    <label for="format">Format fini</label>
+    <input type="text" id="format" required>
+    <label for="orientation">Orientation</label>
+    <select id="orientation">
+        <option value="portrait">Portrait</option>
+        <option value="paysage">Paysage</option>
+    </select>
+    <label for="pagesInterieures">Nombre de pages intérieures (faces)</label>
+    <input type="number" id="pagesInterieures" min="1" required>
+    <label for="papierInterieur">Papier intérieur</label>
+    <select id="papierInterieur" required>
+        <option value="ColorCopy 160g">Satiné blanc - ColorCopy 160g</option>
+        <option value="Circle 140g">Recyclé super blanc - Circle 140g</option>
+        <option value="Biotop 120g">Blanc naturel - Biotop 120g</option>
+        <option value="Magno satin 150g">Couché silk blanc - Magno satin 150g</option>
+    </select>
+    <label for="pagesCouverture">Nombre de pages de couverture</label>
+    <input type="number" id="pagesCouverture" min="2" max="4" step="2" required>
+    <label for="papierCouverture">Papier couverture</label>
+    <select id="papierCouverture" required>
+        <option value="Carton silk 350g">Carton silk 350g</option>
+        <option value="Recyclé super blanc 350g">Recyclé super blanc 350g</option>
+        <option value="Biotop 300g">Blanc naturel - Biotop 300g</option>
+    </select>
+</section>
+
+<section>
+    <h2>La finition</h2>
+    <label for="finition">Type de finition</label>
+    <select id="finition" required>
+        <option value="agrafage">Piqûre à cheval (agrafage)</option>
+        <option value="spirale">Spirale métal</option>
+        <option value="doscarre">Dos carré-collé couverture souple</option>
+        <option value="bd">Reliure cartonné type BD</option>
+    </select>
+    <div id="noteFinition" class="note"></div>
+</section>
+
+<section>
+    <h2>Remarques ou demande spécifique</h2>
+    <label for="remarques">Vos remarques</label>
+    <textarea id="remarques" rows="5"></textarea>
+</section>
+
+<section>
+    <h2>Transmettre vos fichiers</h2>
+    <p>Merci de déposer vos fichiers via <a href="https://wetransfer.com/" target="_blank">WeTransfer</a>.</p>
+</section>
+
+<button type="submit">Envoyer ma demande</button>
+</form>
+
+<script>
+// JS à venir : stockage local, logique papier + note finition, mailto etc.
+</script>
+
+</body>
+</html>
