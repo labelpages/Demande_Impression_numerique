@@ -19,22 +19,26 @@
             text-align: center;
             color: #007aff;
         }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
         section {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            padding: 2rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         label {
-            display: block;
-            margin: 0.8rem 0 0.3rem;
             font-weight: 500;
         }
         input, select, textarea {
             width: 100%;
             padding: 0.6rem;
-            margin-bottom: 1rem;
             border: 1px solid #ccc;
             border-radius: 0.6rem;
             font-size: 1rem;
@@ -51,14 +55,13 @@
             border-radius: 0.6rem;
             cursor: pointer;
             display: block;
-            margin: 2rem auto 0;
+            margin: auto;
         }
         .note {
             font-size: 0.95rem;
             background: #f0f0f0;
             padding: 1rem;
             border-left: 4px solid #007aff;
-            margin-top: 1rem;
             border-radius: 0.5rem;
         }
         .logo {
@@ -66,330 +69,148 @@
             margin: auto;
             width: 200px;
         }
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+            color: #888;
+        }
+        footer img {
+            height: 40px;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
 
 <img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages Logo" class="logo">
-
 <h1>Demande d'impression numérique</h1>
 
 <form id="printForm">
 
 <section>
     <h2>Mes coordonnées</h2>
-    <label for="prenom">Prénom</label>
-    <input type="text" id="prenom" required>
-    <label for="nom">Nom</label>
-    <input type="text" id="nom" required>
-    <label for="tel">Numéro de téléphone</label>
-    <input type="tel" id="tel" required>
-    <label for="email">Adresse email</label>
-    <input type="email" id="email" required>
-    <label for="ecole">École et section</label>
-    <input type="text" id="ecole" required>
-    <label for="delai">Délai souhaité</label>
-    <input type="text" id="delai" required>
+    <label>Prénom <input type="text" id="prenom"></label>
+    <label>Nom <input type="text" id="nom"></label>
+    <label>Numéro de téléphone <input type="tel" id="tel"></label>
+    <label>Adresse email <input type="email" id="email"></label>
+    <label>École et section <input type="text" id="ecole"></label>
+    <label>Délai souhaité <input type="text" id="delai"></label>
 </section>
 
 <section>
     <h2>Ma demande d’impression</h2>
-    <label for="quantite">Quantité</label>
-    <input type="number" id="quantite" min="1" required>
-    <label for="format">Format fini</label>
-    <input type="text" id="format" required>
-    <label for="orientation">Orientation</label>
-    <select id="orientation">
-        <option value="portrait">Portrait</option>
-        <option value="paysage">Paysage</option>
-    </select>
-    <label for="pagesInterieures">Nombre de pages intérieures (faces)</label>
-    <input type="number" id="pagesInterieures" min="1" required>
-    <label for="papierInterieur">Papier intérieur</label>
-    <select id="papierInterieur" required>
-        <option value="ColorCopy 160g">Satiné blanc - ColorCopy 160g</option>
-        <option value="Circle 140g">Recyclé super blanc - Circle 140g</option>
-        <option value="Biotop 120g">Blanc naturel - Biotop 120g</option>
-        <option value="Magno satin 150g">Couché silk blanc - Magno satin 150g</option>
-    </select>
-    <label for="pagesCouverture">Nombre de pages de couverture</label>
-    <input type="number" id="pagesCouverture" min="2" max="4" step="2" required>
-    <label for="papierCouverture">Papier couverture</label>
-    <select id="papierCouverture" required>
-        <option value="Carton silk 350g">Carton silk 350g</option>
-        <option value="Recyclé super blanc 350g">Recyclé super blanc 350g</option>
-        <option value="Biotop 300g">Blanc naturel - Biotop 300g</option>
-    </select>
+    <label>Quantité <input type="number" id="quantite"></label>
+    <label>Format fini <input type="text" id="format"></label>
+    <label>Orientation 
+        <select id="orientation">
+            <option value="portrait">Portrait</option>
+            <option value="paysage">Paysage</option>
+        </select>
+    </label>
+    <label>Nombre de pages intérieures (faces) <input type="number" id="pagesInterieures"></label>
+    <label>Papier intérieur 
+        <select id="papierInterieur">
+            <option>Satiné blanc - ColorCopy 160g</option>
+            <option>Recyclé super blanc - Circle 140g</option>
+            <option>Blanc naturel - Biotop 120g</option>
+            <option>Couché silk blanc - Magno satin 150g</option>
+        </select>
+    </label>
+    <label>Nombre de pages de couverture <input type="number" id="pagesCouverture" min="2" max="4" step="2"></label>
+    <label>Papier couverture 
+        <select id="papierCouverture"></select>
+    </label>
 </section>
 
 <section>
     <h2>La finition</h2>
-    <label for="finition">Type de finition</label>
-    <select id="finition" required>
-        <option value="agrafage">Piqûre à cheval (agrafage)</option>
-        <option value="spirale">Spirale métal</option>
-        <option value="doscarre">Dos carré-collé couverture souple</option>
-        <option value="bd">Reliure cartonné type BD</option>
-    </select>
+    <label>Type de finition 
+        <select id="finition">
+            <option value="agrafage">Piqûre à cheval (agrafage)</option>
+            <option value="spirale">Spirale métal</option>
+            <option value="doscarre">Dos carré-collé couverture souple</option>
+            <option value="bd">Reliure cartonné type BD</option>
+        </select>
+    </label>
     <div id="noteFinition" class="note"></div>
 </section>
 
 <section>
     <h2>Remarques ou demande spécifique</h2>
-    <label for="remarques">Vos remarques</label>
     <textarea id="remarques" rows="5"></textarea>
 </section>
 
 <section>
     <h2>Transmettre vos fichiers</h2>
-    <p>Merci de déposer vos fichiers via <a href="https://wetransfer.com/" target="_blank">WeTransfer</a>.</p>
+    <p>Merci de déposer vos fichiers via <a href="https://wetransfer.com/" target="_blank">WeTransfer</a> à <strong>info@labelpages.com</strong>.</p>
 </section>
 
 <button type="submit">Envoyer ma demande</button>
 </form>
 
-<script>
-
-const form = document.getElementById('printForm');
-const fields = [
-    'prenom', 'nom', 'tel', 'email', 'ecole', 'delai',
-    'quantite', 'format', 'orientation', 'pagesInterieures',
-    'papierInterieur', 'pagesCouverture', 'papierCouverture',
-    'finition', 'remarques'
-];
-
-// Charger depuis localStorage
-fields.forEach(id => {
-    const el = document.getElementById(id);
-    const saved = localStorage.getItem(id);
-    if (saved !== null && el) el.value = saved;
-});
-
-// Sauvegarde à chaque saisie
-fields.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-        el.addEventListener('input', () => {
-            localStorage.setItem(id, el.value);
-            if (id === 'papierInterieur') updatePapierCouverture(el.value);
-            if (id === 'finition') updateNoteFinition(el.value);
-        });
-    }
-});
-
-function updatePapierCouverture(val) {
-    const couverture = document.getElementById('papierCouverture');
-    couverture.innerHTML = '';
-    const mappings = {
-        'Satiné blanc - ColorCopy 160g': ['Carton silk 350g'],
-        'Recyclé super blanc - Circle 140g': ['Recyclé super blanc 350g'],
-        'Blanc naturel - Biotop 120g': ['Blanc naturel - Biotop 300g'],
-        'Couché silk blanc - Magno satin 150g': ['Carton silk 350g']
-    };
-    if (mappings[val]) {
-        mappings[val].forEach(papier => {
-            const opt = document.createElement('option');
-            opt.value = papier;
-            opt.textContent = papier;
-            couverture.appendChild(opt);
-        });
-    }
-}
-
-function updateNoteFinition(val) {
-    const note = document.getElementById('noteFinition');
-    let content = '';
-    switch(val) {
-        case 'agrafage':
-            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
-            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
-            <em>Ce type de reliure nécessite impérativement un multiple de 4 pages.</em>`;
-            break;
-        case 'spirale':
-            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
-            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
-            <em>Ce type de reliure nécessite impérativement un multiple de 2 pages.</em>`;
-            break;
-        case 'doscarre':
-            content = `<strong>Délai :</strong> 6 jours ouvrables après validation<br>
-            <strong>Fichiers :</strong><br>
-            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
-            - Couverture : PDF HD, 1 fichier avec dos calculé via <a href="https://labelpages.github.io/LOCI/" target="_blank">ce programme</a>`;
-            break;
-        case 'bd':
-            content = `<strong>Délai :</strong> 10 jours ouvrables après validation<br>
-            <strong>Fichiers :</strong><br>
-            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
-            - Couverture : PDF HD, 1 fichier avec dos basé sur un gabarit fourni sur demande`;
-            break;
-    }
-    note.innerHTML = content;
-}
-
-// Email structuré
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const data = {};
-    fields.forEach(id => data[id] = document.getElementById(id).value);
-
-    const lignes = [
-        'Demande d'impression numérique',
-        '',
-        `Prénom : ${data.prenom}`,
-        `Nom : ${data.nom}`,
-        `Téléphone : ${data.tel}`,
-        `Email : ${data.email}`,
-        `École / Section : ${data.ecole}`,
-        `Délai souhaité : ${data.delai}`,
-        '',
-        `Quantité : ${data.quantite}`,
-        `Format fini : ${data.format}`,
-        `Orientation : ${data.orientation}`,
-        `Pages intérieures : ${data.pagesInterieures}`,
-        `Papier intérieur : ${data.papierInterieur}`,
-        `Pages couverture : ${data.pagesCouverture}`,
-        `Papier couverture : ${data.papierCouverture}`,
-        `Finition : ${data.finition}`,
-        '',
-        `Remarques : ${data.remarques}`,
-        '',
-        `Fichiers transmis via : https://wetransfer.com à info@labelpages.com`
-    ];
-
-    const body = encodeURIComponent(lignes.join('\n'));
-    const subject = encodeURIComponent("Demande d'impression TFE");
-    const mailto = `mailto:info@labelpages.com,${data.email}?subject=${subject}&body=${body}`;
-    window.location.href = mailto;
-});
-
-
-// Sauvegarde dans localStorage
-const form = document.getElementById('printForm');
-const fields = [
-    'prenom', 'nom', 'tel', 'email', 'ecole', 'delai',
-    'quantite', 'format', 'orientation', 'pagesInterieures',
-    'papierInterieur', 'pagesCouverture', 'papierCouverture',
-    'finition', 'remarques'
-];
-
-// Remplissage initial avec les données locales
-fields.forEach(id => {
-    const el = document.getElementById(id);
-    const saved = localStorage.getItem(id);
-    if (saved && el) el.value = saved;
-});
-
-// Sauvegarde à la volée
-fields.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-        el.addEventListener('input', () => {
-            localStorage.setItem(id, el.value);
-            if (id === 'papierInterieur') updatePapierCouverture(el.value);
-            if (id === 'finition') updateNoteFinition(el.value);
-        });
-    }
-});
-
-// Logique pour mise à jour du papier couverture
-function updatePapierCouverture(val) {
-    const couverture = document.getElementById('papierCouverture');
-    couverture.innerHTML = '';
-    let options = [];
-    switch(val) {
-        case 'ColorCopy 160g':
-        case 'Magno satin 150g':
-            options.push(['Carton silk 350g', 'Carton silk 350g']);
-            break;
-        case 'Circle 140g':
-            options.push(['Recyclé super blanc 350g', 'Recyclé super blanc 350g']);
-            break;
-        case 'Biotop 120g':
-            options.push(['Biotop 300g', 'Blanc naturel - Biotop 300g']);
-            break;
-    }
-    options.forEach(opt => {
-        const option = document.createElement('option');
-        option.value = opt[0];
-        option.textContent = opt[1];
-        couverture.appendChild(option);
-    });
-}
-
-// Logique pour affichage de la note finition
-function updateNoteFinition(val) {
-    const note = document.getElementById('noteFinition');
-    let content = '';
-    switch(val) {
-        case 'agrafage':
-            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
-            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
-            <em>Ce type de reliure nécessite impérativement un multiple de 4 pages.</em>`;
-            break;
-        case 'spirale':
-            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
-            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
-            <em>Ce type de reliure nécessite impérativement un multiple de 2 pages.</em>`;
-            break;
-        case 'doscarre':
-            content = `<strong>Délai :</strong> 6 jours ouvrables après validation<br>
-            <strong>Fichiers :</strong><br>
-            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
-            - Couverture : PDF HD, 1 fichier avec dos calculé via <a href="https://labelpages.github.io/LOCI/" target="_blank">ce programme</a>`;
-            break;
-        case 'bd':
-            content = `<strong>Délai :</strong> 10 jours ouvrables après validation<br>
-            <strong>Fichiers :</strong><br>
-            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
-            - Couverture : PDF HD, 1 fichier avec dos basé sur un gabarit fourni sur demande`;
-            break;
-    }
-    note.innerHTML = content;
-}
-
-// Email structuré
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const data = {};
-    fields.forEach(id => data[id] = document.getElementById(id).value);
-
-    const lignes = [
-        '<h2>Demande d'impression numérique</h2>',
-        '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: sans-serif;">',
-        `<tr><td><strong>Prénom</strong></td><td>${data.prenom}</td></tr>`,
-        `<tr><td><strong>Nom</strong></td><td>${data.nom}</td></tr>`,
-        `<tr><td><strong>Téléphone</strong></td><td>${data.tel}</td></tr>`,
-        `<tr><td><strong>Email</strong></td><td>${data.email}</td></tr>`,
-        `<tr><td><strong>École / Section</strong></td><td>${data.ecole}</td></tr>`,
-        `<tr><td><strong>Délai souhaité</strong></td><td>${data.delai}</td></tr>`,
-        `<tr><td><strong>Quantité</strong></td><td>${data.quantite}</td></tr>`,
-        `<tr><td><strong>Format fini</strong></td><td>${data.format}</td></tr>`,
-        `<tr><td><strong>Orientation</strong></td><td>${data.orientation}</td></tr>`,
-        `<tr><td><strong>Pages intérieures</strong></td><td>${data.pagesInterieures}</td></tr>`,
-        `<tr><td><strong>Papier intérieur</strong></td><td>${data.papierInterieur}</td></tr>`,
-        `<tr><td><strong>Pages couverture</strong></td><td>${data.pagesCouverture}</td></tr>`,
-        `<tr><td><strong>Papier couverture</strong></td><td>${data.papierCouverture}</td></tr>`,
-        `<tr><td><strong>Finition</strong></td><td>${data.finition}</td></tr>`,
-        `<tr><td><strong>Remarques</strong></td><td>${data.remarques}</td></tr>`,
-        '</table>'
-    ];
-
-    const body = encodeURIComponent(lignes.join('\n'));
-    const subject = encodeURIComponent("Demande d'impression TFE");
-    const mailto = `mailto:info@labelpages.com,${data.email}?subject=${subject}&body=${body}`;
-    window.location.href = mailto;
-});
-
-// JS à venir : stockage local, logique papier + note finition, mailto etc.
-</script>
-
-
-<footer style="text-align:center; font-size: 0.9rem; margin-top: 4rem; color: #888;">
+<footer>
     <p>Contact : Rue Michel Holyman, 12 | 7536 Vaulx (Tournai – Belgique) | <a href="mailto:info@labelpages.com">info@labelpages.com</a> | +32 69 228 339</p>
-    <img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages logo" style="height:40px; margin-top: 0.5rem;">
+    <img src="https://labelpages.printsafe.net/wp-content/uploads/2020/01/LABEL_New-logo-QUAD.svg" alt="Labelpages logo">
 </footer>
+
+<script>
+const form = document.getElementById('printForm');
+const fields = ['prenom','nom','tel','email','ecole','delai','quantite','format','orientation','pagesInterieures','papierInterieur','pagesCouverture','papierCouverture','finition','remarques'];
+fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (localStorage.getItem(id)) el.value = localStorage.getItem(id);
+    el.addEventListener('input', () => {
+        localStorage.setItem(id, el.value);
+        if (id === 'papierInterieur') updatePapierCouverture(el.value);
+        if (id === 'finition') updateNoteFinition(el.value);
+    });
+});
+
+function updatePapierCouverture(val) {
+    const c = document.getElementById('papierCouverture');
+    c.innerHTML = '';
+    const map = {
+        'Satiné blanc - ColorCopy 160g': 'Carton silk 350g',
+        'Recyclé super blanc - Circle 140g': 'Recyclé super blanc 350g',
+        'Blanc naturel - Biotop 120g': 'Blanc naturel - Biotop 300g',
+        'Couché silk blanc - Magno satin 150g': 'Carton silk 350g'
+    };
+    const opt = document.createElement('option');
+    opt.value = map[val];
+    opt.textContent = map[val];
+    c.appendChild(opt);
+}
+updatePapierCouverture(document.getElementById('papierInterieur').value);
+
+function updateNoteFinition(val) {
+    const note = document.getElementById('noteFinition');
+    const content = {
+        'agrafage': `<strong>Délai :</strong> 4 jours ouvrables<br><strong>Fichier :</strong> PDF HD avec bords perdus et traits de coupe<br><em>Multiples de 4 pages requis.</em>`,
+        'spirale': `<strong>Délai :</strong> 4 jours ouvrables<br><strong>Fichier :</strong> PDF HD avec bords perdus et traits de coupe<br><em>Multiples de 2 pages requis.</em>`,
+        'doscarre': `<strong>Délai :</strong> 6 jours ouvrables<br><strong>Fichiers :</strong> Intérieur en PDF HD pages simples + Couverture avec dos via <a href='https://labelpages.github.io/LOCI/' target='_blank'>ce calculateur</a>`,
+        'bd': `<strong>Délai :</strong> 10 jours ouvrables<br><strong>Fichiers :</strong> Intérieur en PDF HD pages simples + Couverture avec gabarit fourni sur demande`
+    };
+    note.innerHTML = content[val] || '';
+}
+updateNoteFinition(document.getElementById('finition').value);
+
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const d = {};
+    fields.forEach(id => d[id] = document.getElementById(id).value);
+    const body = encodeURIComponent(
+        `Demande d'impression numérique\n\n` +
+        `Prénom : ${d.prenom}\nNom : ${d.nom}\nTéléphone : ${d.tel}\nEmail : ${d.email}\n` +
+        `École / Section : ${d.ecole}\nDélai souhaité : ${d.delai}\n\n` +
+        `Quantité : ${d.quantite}\nFormat : ${d.format}\nOrientation : ${d.orientation}\n` +
+        `Pages intérieures : ${d.pagesInterieures}\nPapier intérieur : ${d.papierInterieur}\n` +
+        `Pages couverture : ${d.pagesCouverture}\nPapier couverture : ${d.papierCouverture}\nFinition : ${d.finition}\n\n` +
+        `Remarques : ${d.remarques}\n\nFichiers transmis via WeTransfer à info@labelpages.com`
+    );
+    const subject = encodeURIComponent("Demande d'impression TFE");
+    window.location.href = `mailto:info@labelpages.com,${d.email}?subject=${subject}&body=${body}`;
+});
+</script>
 </body>
 </html>
-
