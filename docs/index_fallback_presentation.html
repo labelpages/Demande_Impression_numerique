@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Demande d'impression numérique – Labelpages</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f4f4f4;
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #007aff;
+    }
+    form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      background-color: #007aff;
+      color: white;
+      padding: 0.8rem;
+      border: none;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Demande d'impression numérique</h1>
+  <form>
+    <label>Prénom</label>
+    <input type="text" placeholder="Votre prénom" />
+
+    <label>Nom</label>
+    <input type="text" placeholder="Votre nom" />
+
+    <label>Email</label>
+    <input type="email" placeholder="votre@email.com" />
+
+    <label>École et section</label>
+    <input type="text" />
+
+    <label>Délai souhaité</label>
+    <input type="date" />
+
+    <label>Quantité</label>
+    <input type="number" />
+
+    <label>Format fini</label>
+    <input type="text" />
+
+    <label>Orientation</label>
+    <select>
+      <option>Portrait</option>
+      <option>Paysage</option>
+    </select>
+
+    <button type="submit">Envoyer la demande</button>
+  </form>
+</body>
+</html>
