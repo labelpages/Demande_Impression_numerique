@@ -149,6 +149,125 @@
 </form>
 
 <script>
+
+// Sauvegarde dans localStorage
+const form = document.getElementById('printForm');
+const fields = [
+    'prenom', 'nom', 'tel', 'email', 'ecole', 'delai',
+    'quantite', 'format', 'orientation', 'pagesInterieures',
+    'papierInterieur', 'pagesCouverture', 'papierCouverture',
+    'finition', 'remarques'
+];
+
+// Remplissage initial avec les données locales
+fields.forEach(id => {
+    const el = document.getElementById(id);
+    const saved = localStorage.getItem(id);
+    if (saved && el) el.value = saved;
+});
+
+// Sauvegarde à la volée
+fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('input', () => {
+            localStorage.setItem(id, el.value);
+            if (id === 'papierInterieur') updatePapierCouverture(el.value);
+            if (id === 'finition') updateNoteFinition(el.value);
+        });
+    }
+});
+
+// Logique pour mise à jour du papier couverture
+function updatePapierCouverture(val) {
+    const couverture = document.getElementById('papierCouverture');
+    couverture.innerHTML = '';
+    let options = [];
+    switch(val) {
+        case 'ColorCopy 160g':
+        case 'Magno satin 150g':
+            options.push(['Carton silk 350g', 'Carton silk 350g']);
+            break;
+        case 'Circle 140g':
+            options.push(['Recyclé super blanc 350g', 'Recyclé super blanc 350g']);
+            break;
+        case 'Biotop 120g':
+            options.push(['Biotop 300g', 'Blanc naturel - Biotop 300g']);
+            break;
+    }
+    options.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt[0];
+        option.textContent = opt[1];
+        couverture.appendChild(option);
+    });
+}
+
+// Logique pour affichage de la note finition
+function updateNoteFinition(val) {
+    const note = document.getElementById('noteFinition');
+    let content = '';
+    switch(val) {
+        case 'agrafage':
+            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
+            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+            <em>Ce type de reliure nécessite impérativement un multiple de 4 pages.</em>`;
+            break;
+        case 'spirale':
+            content = `<strong>Délai :</strong> 4 jours ouvrables après validation<br>
+            <strong>Fichier :</strong> PDF haute définition avec bords perdus et traits de coupe<br>
+            <em>Ce type de reliure nécessite impérativement un multiple de 2 pages.</em>`;
+            break;
+        case 'doscarre':
+            content = `<strong>Délai :</strong> 6 jours ouvrables après validation<br>
+            <strong>Fichiers :</strong><br>
+            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
+            - Couverture : PDF HD, 1 fichier avec dos calculé via <a href="https://labelpages.github.io/LOCI/" target="_blank">ce programme</a>`;
+            break;
+        case 'bd':
+            content = `<strong>Délai :</strong> 10 jours ouvrables après validation<br>
+            <strong>Fichiers :</strong><br>
+            - Intérieur : PDF HD, traits de coupe, fonds perdus, pages simples, marges intérieures 15mm<br>
+            - Couverture : PDF HD, 1 fichier avec dos basé sur un gabarit fourni sur demande`;
+            break;
+    }
+    note.innerHTML = content;
+}
+
+// Email structuré
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const data = {};
+    fields.forEach(id => data[id] = document.getElementById(id).value);
+
+    const lignes = [
+        '<h2>Demande d'impression numérique</h2>',
+        '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: sans-serif;">',
+        `<tr><td><strong>Prénom</strong></td><td>${data.prenom}</td></tr>`,
+        `<tr><td><strong>Nom</strong></td><td>${data.nom}</td></tr>`,
+        `<tr><td><strong>Téléphone</strong></td><td>${data.tel}</td></tr>`,
+        `<tr><td><strong>Email</strong></td><td>${data.email}</td></tr>`,
+        `<tr><td><strong>École / Section</strong></td><td>${data.ecole}</td></tr>`,
+        `<tr><td><strong>Délai souhaité</strong></td><td>${data.delai}</td></tr>`,
+        `<tr><td><strong>Quantité</strong></td><td>${data.quantite}</td></tr>`,
+        `<tr><td><strong>Format fini</strong></td><td>${data.format}</td></tr>`,
+        `<tr><td><strong>Orientation</strong></td><td>${data.orientation}</td></tr>`,
+        `<tr><td><strong>Pages intérieures</strong></td><td>${data.pagesInterieures}</td></tr>`,
+        `<tr><td><strong>Papier intérieur</strong></td><td>${data.papierInterieur}</td></tr>`,
+        `<tr><td><strong>Pages couverture</strong></td><td>${data.pagesCouverture}</td></tr>`,
+        `<tr><td><strong>Papier couverture</strong></td><td>${data.papierCouverture}</td></tr>`,
+        `<tr><td><strong>Finition</strong></td><td>${data.finition}</td></tr>`,
+        `<tr><td><strong>Remarques</strong></td><td>${data.remarques}</td></tr>`,
+        '</table>'
+    ];
+
+    const body = encodeURIComponent(lignes.join('\n'));
+    const subject = encodeURIComponent("Demande d'impression TFE");
+    const mailto = `mailto:info@labelpages.com,${data.email}?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
+});
+
 // JS à venir : stockage local, logique papier + note finition, mailto etc.
 </script>
 
