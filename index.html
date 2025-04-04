@@ -210,12 +210,12 @@ form.addEventListener('submit', function(e){
     fields.forEach(id => d[id] = document.getElementById(id).value);
     const body = encodeURIComponent(
         `Demande d'impression numérique\n\n` +
-        `Prénom : ${d.prenom}<BR>Nom : ${d.nom}<BR>Téléphone : ${d.tel}<BR>Email : ${d.email}<BR>` +
-        `École / Section : ${d.ecole}<BR>Délai souhaité : ${d.delai}<BR><BR>` +
-        `Quantité : ${d.quantite}<BR>Format : ${d.format}<BR>Orientation : ${d.orientation}<BR> +
-        `Pages intérieures : ${d.pagesInterieures}<BR>Papier intérieur : ${d.papierInterieur}<BR>` +
-        `Pages couverture : ${d.pagesCouverture}<BR>Papier couverture : ${d.papierCouverture}<BR>Finition : ${d.finition}<BR><BR>` +
-        `Remarques : ${d.remarques}<BR><BR><BR>Fichiers transmis via WeTransfer à info@labelpages.com`
+        `Prénom : ${d.prenom}<br/>Nom : ${d.nom}<br/>Téléphone : ${d.tel}<br/>Email : ${d.email}<br/> +
+        `École / Section : ${d.ecole}<br/>Délai souhaité : ${d.delai}<br/><br/> +
+        `Quantité : ${d.quantite}<br/>Format : ${d.format}<br/>Orientation : ${d.orientation}<br/> +
+        `Pages intérieures : ${d.pagesInterieures}<br/>Papier intérieur : ${d.papierInterieur<br/> +
+        `Pages couverture : ${d.pagesCouverture}<br/>Papier couverture : ${d.papierCouverture}<br/>Finition : ${d.finition}<br/><br/> +
+        `Remarques : ${d.remarques}<br/><br/>Fichiers transmis via WeTransfer à info@labelpages.com`
     );
     const subject = encodeURIComponent("Demande d'impression TFE");
     window.location.href = `mailto:info@labelpages.com,${d.email}?subject=${subject}&body=${body}`;
