@@ -1,5 +1,7 @@
 
 <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -170,60 +172,12 @@ h2 {
 
 <script>
 const form = document.getElementById('printForm');
-const fields = ['prenom','nom','tel','email','ecole','delai','quantite','format','orientation','pagesInterieures','papierInterieur','pagesCouverture','papierCouverture','finition','remarques'];
-fields.forEach(id => {
-    const el = document.getElementById(id);
-    if (localStorage.getItem(id)) el.value = localStorage.getItem(id);
-    el.addEventListener('input', () => {
-        localStorage.setItem(id, el.value);
-        if (id === 'papierInterieur') updatePapierCouverture(el.value);
-        if (id === 'finition') updateNoteFinition(el.value);
-    });
-});
-
-function updatePapierCouverture(val) {
-    const c = document.getElementById('papierCouverture');
-    c.innerHTML = '';
-    const map = {
-        'Satiné blanc - ColorCopy 160g': 'Carton silk 350g',
-        'Recyclé super blanc - Circle 140g': 'Recyclé super blanc 350g',
-        'Blanc naturel - Biotop 120g': 'Blanc naturel - Biotop 300g',
-        'Couché silk blanc - Magno satin 150g': 'Carton silk 350g'
-    };
-    const opt = document.createElement('option');
-    opt.value = map[val];
-    opt.textContent = map[val];
-    c.appendChild(opt);
-}
-updatePapierCouverture(document.getElementById('papierInterieur').value);
-
-function updateNoteFinition(val) {
-    const note = document.getElementById('noteFinition');
-    let content = '';
-    if (val === 'agrafage') {
-        content = `Délai : 4 jours ouvrables après validation du fichier
-Fichier : PDF HD avec bords perdus et traits de coupe
-Multiples de 4 pages requis.`;
-    } else if (val === 'spirale') {
-        content = `Délai : 4 jours ouvrables après validation du fichier
-Fichier : PDF HD avec bords perdus et traits de coupe
-Multiples de 2 pages requis.`;
-    } else if (val === 'doscarre') {
-        content = `Délai : 6 jours ouvrables après validation du fichier
-Fichiers : intérieur PDF HD pages simples + couverture avec dos calculé.`;
-    } else if (val === 'bd') {
-        content = `Délai : 10 jours ouvrables après validation du fichier
-Fichiers : intérieur PDF HD pages simples + couverture selon gabarit fourni.`;
-    }
-    note.innerText = content;
-}
-updateNoteFinition(document.getElementById('finition').value);
-
 form.addEventListener('submit', function(e){
     e.preventDefault();
     const d = {};
+    const fields = ['prenom','nom','tel','email','ecole','delai','quantite','format','orientation','pagesInterieures','papierInterieur','pagesCouverture','papierCouverture','finition','remarques'];
     fields.forEach(id => d[id] = document.getElementById(id).value);
-    const finitionNote = document.getElementById('noteFinition').innerText;
+    const note = document.getElementById('noteFinition')?.innerText || '';
 
     const body = encodeURIComponent(
         `Demande d'impression numérique
@@ -248,20 +202,18 @@ Papier intérieur : ${d.papierInterieur}
         `Pages couverture : ${d.pagesCouverture}
 Papier couverture : ${d.papierCouverture}
 ` +
-        `Finition : ${d.finition}
-${finitionNote ? 'Détails finition : ' + finitionNote + '
-' : ''}
+        `Finition : ${d.finition}${note ? `
+Détails finition : ${note}` : ''}
+
 ` +
         `Remarques : ${d.remarques}
 
-Fichiers transmis via : https://wetransfer.com à info@labelpages.com`
+Fichiers transmis via WeTransfer à info@labelpages.com`
     );
-
     const subject = encodeURIComponent("Demande d'impression TFE");
     document.getElementById('confirmationMessage').innerText = "Votre demande a été générée. Un email s’ouvre automatiquement. Merci !";
     window.location.href = `mailto:info@labelpages.com?subject=${subject}&body=${body}`;
 });
 </script>
-
 </body>
 </html>
