@@ -250,18 +250,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const val = finition.value;
         if (val === 'agrafage') {
             content = `Délai : 4 jours ouvrables après validation du fichier
-Fichier à transmettre : PDF HD avec bords perdus et traits de coupe
+Fichier : PDF HD avec bords perdus et traits de coupe
 Multiples de 4 pages requis.`;
         } else if (val === 'spirale') {
             content = `Délai : 4 jours ouvrables après validation du fichier
-Fichier à transmettre : PDF HD avec bords perdus et traits de coupe
+Fichier : PDF HD avec bords perdus et traits de coupe
 Multiples de 2 pages requis.`;
         } else if (val === 'doscarre') {
             content = `Délai : 6 jours ouvrables après validation du fichier
-Fichiers à transmettre : Intérieur PDF HD (pages simples) + Couverture avec dos à calculer ici : https://labelpages.github.io/LOCI/ {;
+Fichiers : Intérieur PDF HD (pages simples) + Couverture avec dos (calculateur LOCI)`;
         } else if (val === 'bd') {
             content = `Délai : 10 jours ouvrables après validation du fichier
-Fichiers à transmettre : Intérieur PDF HD (pages simples) + Couverture selon gabarit fourni sur demande.`;
+Fichiers : Intérieur PDF HD (pages simples) + Couverture selon gabarit fourni sur demande.`;
         }
         noteFinition.innerText = content;
     }
