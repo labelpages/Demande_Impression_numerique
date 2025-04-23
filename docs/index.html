@@ -216,4 +216,58 @@ Fichiers transmis via WeTransfer à info@labelpages.com`
 });
 </script>
 </body>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const mapPapier = {
+        'Satiné blanc - ColorCopy 160g': 'Carton silk 350g',
+        'Recyclé super blanc - Circle 140g': 'Recyclé super blanc 350g',
+        'Blanc naturel - Biotop 120g': 'Blanc naturel - Biotop 300g',
+        'Couché silk blanc - Magno satin 150g': 'Carton silk 350g'
+    };
+
+    const papierInterieur = document.getElementById('papierInterieur');
+    const papierCouverture = document.getElementById('papierCouverture');
+
+    function updatePapierCouverture() {
+        const value = papierInterieur.value;
+        papierCouverture.innerHTML = '';
+        const option = document.createElement('option');
+        option.value = mapPapier[value] || '';
+        option.textContent = mapPapier[value] || 'Choisissez un papier';
+        papierCouverture.appendChild(option);
+    }
+
+    papierInterieur.addEventListener('change', updatePapierCouverture);
+    updatePapierCouverture();
+
+    const finition = document.getElementById('finition');
+    const noteFinition = document.getElementById('noteFinition');
+
+    function updateNoteFinition() {
+        let content = '';
+        const val = finition.value;
+        if (val === 'agrafage') {
+            content = `Délai : 4 jours ouvrables après validation du fichier
+Fichier : PDF HD avec bords perdus et traits de coupe
+Multiples de 4 pages requis.`;
+        } else if (val === 'spirale') {
+            content = `Délai : 4 jours ouvrables après validation du fichier
+Fichier : PDF HD avec bords perdus et traits de coupe
+Multiples de 2 pages requis.`;
+        } else if (val === 'doscarre') {
+            content = `Délai : 6 jours ouvrables après validation du fichier
+Fichiers : Intérieur PDF HD (pages simples) + Couverture avec dos (calculateur LOCI)`;
+        } else if (val === 'bd') {
+            content = `Délai : 10 jours ouvrables après validation du fichier
+Fichiers : Intérieur PDF HD (pages simples) + Couverture selon gabarit fourni sur demande.`;
+        }
+        noteFinition.innerText = content;
+    }
+
+    finition.addEventListener('change', updateNoteFinition);
+    updateNoteFinition();
+});
+</script>
 </html>
